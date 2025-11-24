@@ -20,6 +20,9 @@ public class ElasticsearchConfigProps {
     private String scheme = "http";
     private String host = "localhost";
     private int port = 9200;
+    private String proxyScheme;
+    private String proxyHost;
+    private int proxyPort;
     private String user;
     private String password;
     private String type = "_doc";  // this will be deprecated and unnecessary in ES7

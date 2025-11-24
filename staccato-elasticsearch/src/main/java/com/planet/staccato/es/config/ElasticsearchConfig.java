@@ -47,11 +47,18 @@ public class ElasticsearchConfig {
                     .setMaxConnTotal(configProps.getRestClientMaxConnectionsTotal())
                     .setMaxConnPerRoute(configProps.getRestClientMaxConnectionsPerRoute());
 
+            // Add credentials if present
             if (null != configProps.getUser() && !configProps.getUser().isEmpty()) {
                 CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
                 credentialsProvider.setCredentials(AuthScope.ANY,
                         new UsernamePasswordCredentials(configProps.getUser(), configProps.getPassword()));
                 httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+            }
+
+            // Add proxy details if present
+            if (null != configProps.getProxyHost() && !configProps.getProxyHost().isEmpty()) {
+                HttpHost httpHost = new HttpHost(configProps.getProxyHost(),configProps.getProxyPort(),configProps.getProxyScheme());
+                httpAsyncClientBuilder.setProxy(httpHost);
             }
 
             return httpAsyncClientBuilder;
